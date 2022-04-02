@@ -1,0 +1,13 @@
+Private Sub UserForm_Initialize()
+TextBox1 = ""
+TextBox2 = ""
+TextBox3 = ""
+
+Call ID_TERAKHIR
+End Sub
+
+Sub ID_TERAKHIR()
+Dim ID As Object
+Set ID = Sheet1.Range("TABEL_JURUSAN").End(xlUp)
+  Sheet1.Range("E4").Value = ID.Offset(0, 0).Value
+End Sub
