@@ -1,0 +1,46 @@
+Sub Jenis_Kelamin()
+  With FORM_SISWA.Combo_JenisKelamin
+    .AddItem "Laki-laki"
+    .AddItem "Perempuan"
+  End With
+End Sub
+
+Sub Agama()
+  With FORM_SISWA.Combo_Agama
+    .AddItem "Islam"
+    .AddItem "Khatolik"
+    .AddItem "Protestan"
+    .AddItem "Hindu"
+    .AddItem "Budha"
+    .AddItem "Konghuchu"
+  End With
+End Sub
+
+Sub Bersih_text()
+  With FORM_SISWA
+    .TextBox_NIPL = ""
+    .TextBox_NamaLengkap = ""
+    .TextBox_TempatLahir = ""
+    .TextBox_TanggalLahir = ""
+    .Combo_JenisKelamin = ""
+    .Combo_Jurusan = ""
+    .Combo_Agama = ""
+    .TextBox_GolDarah = ""
+    .TextBox_Alamat = ""
+    .TextBox_WA = ""
+    .TextBox_Email = ""
+    .TextBox_Link = ""
+    .Pesan_NIPL.Visible = False
+  End With
+End Sub
+
+Sub Pesan_Hide()
+  FORM_SISWA.Pesan_NIPL.Visible = False
+End Sub
+
+Sub Pengecekan()
+If FORM_SISWA.TextBox_NamaLengkap.Value = "" Then
+  FORM_SISWA.TextBox_NamaLengkap.BorderColor = vbRed
+  FORM_SISWA.Label_NamaLengkap.BackColor = vbRed
+End If
+End Sub
