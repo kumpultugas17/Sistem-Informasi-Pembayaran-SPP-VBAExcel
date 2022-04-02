@@ -1,0 +1,19 @@
+Sub Listbox()
+On Error Resume Next
+With ListBox1
+  .ColumnHeads = True
+  .ColumnCount = 4
+  .RowSource = Sheet3.Range("DATA_PEMBAYARAN").Address(External:=True)
+End With
+End Sub
+
+Private Sub ListBox1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
+UserForm3.TextBox_NIPL = ListBox1.List(Me.ListBox1.ListIndex, 0)
+UserForm3.TextBox_NamaLengkap = ListBox1.List(Me.ListBox1.ListIndex, 1)
+UserForm3.TextBox_PembayaranKe = Sheet4.Range("G7").Value + 1
+UserForm3.Show
+End Sub
+
+Private Sub UserForm_Initialize()
+Call Listbox
+End Sub
