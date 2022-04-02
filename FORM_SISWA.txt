@@ -1,0 +1,90 @@
+Private Sub Btn_Upload_Click()
+On Error Resume Next
+With Application.FileDialog(msoFileDialogFilePicker)
+  .AllowMultiSelect = False
+  .ButtonName = "Insert"
+  .Title = "Pilih File Foto"
+  .Filters.Add "Gambar", "*.jpg; *.gif; *.jpeg", 1
+  If .Show = -1 Then
+    TextBox_Link.Value = .SelectedItems(1)
+    Image1.PictureSizeMode = fmPictureSizeModeStretch
+    Image1.Picture = LoadPicture(.SelectedItems(1))
+  End If
+End With
+End Sub
+
+Private Sub BtnSimpan_Click()
+If BtnSimpan.Caption = "Simpan" Then
+  Call Pengecekan
+  Dim Simpan As Object
+  Dim Path As String
+  Set Simpan = Sheet1.Range("A10000").End(xlUp)
+  Path = ThisWorkbook.Path & "\" & "Foto" & "\"
+  Simpan.Offset(1, 0).Value = TextBox_NIPL.Value
+  Simpan.Offset(1, 1).Value = TextBox_NamaLengkap.Value
+  Simpan.Offset(1, 11).Value = Path & TextBox_NamaLengkap.Value & ".jpg"
+  SavePicture Image1.Picture, Path & TextBox_NamaLengkap.Value & ".jpg"
+Else
+  MsgBox "Disini Coding Edit"
+End If
+End Sub
+
+Private Sub BtnTutup_Click()
+If BtnSimpan.Caption = "Simpan" Then
+  Unload Me
+Else
+  Call Bersih_text
+  TextBox_NIPL.Locked = False
+  BtnSimpan.Caption = "Simpan"
+End If
+End Sub
+
+Private Sub TextBox_NamaLengkap_Change()
+If TextBox_NamaLengkap <> "" Then
+  TextBox_NamaLengkap.BorderColor = vbBlack
+  Label_NamaLengkap.BackColor = &H8000000D
+End If
+End Sub
+
+Private Sub TextBox_NIPL_AfterUpdate()
+With Sheet1.Range("A4:A100000")
+  Set C = .Find(TextBox_NIPL.Value, LookIn:=xlValues)
+    If C Is Nothing Then
+      Pesan_NIPL.Visible = False
+    Else
+      TextBox_NamaLengkap.Value = C.Offset(0, 1).Value
+      TextBox_TempatLahir.Value = C.Offset(0, 2).Value
+      TextBox_TanggalLahir.Value = C.Offset(0, 3).Value
+      Combo_JenisKelamin.Value = C.Offset(0, 4).Value
+      Combo_Agama.Value = C.Offset(0, 5).Value
+      Combo_Jurusan.Value = C.Offset(0, 6).Value
+      TextBox_Alamat.Value = C.Offset(0, 7).Value
+      TextBox_GolDarah.Value = C.Offset(0, 8).Value
+      TextBox_WA.Value = C.Offset(0, 9).Value
+      TextBox_Email.Value = C.Offset(0, 10).Value
+      TextBox_Link.Value = C.Offset(0, 11).Value
+      Image1.Picture = LoadPicture(TextBox_Link.Value)
+      Pesan_NIPL.Visible = True
+      TextBox_NIPL.Locked = True
+      
+      BtnSimpan.Caption = "Edit"
+    Exit Sub
+  End If
+End With
+End Sub
+
+Private Sub TextBox_TempatLahir_Change()
+If TextBox_TempatLahir <> "" Then
+  TextBox_TempatLahir.BorderColor = vbBlack
+  Label_TempatLahir.BackColor = &H8000000D
+End If
+End Sub
+
+Private Sub UserForm_Initialize()
+  'Memanggil dari modul
+  Call Bersih_text
+  Call Jenis_Kelamin
+  Call Agama
+  Call Pesan_Hide
+  TextBox_Link.Visible = False
+End Sub
